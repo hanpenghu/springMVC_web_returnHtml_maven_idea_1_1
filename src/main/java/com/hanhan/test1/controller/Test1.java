@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by hanhan on 2017-07-17.
+ * @RestController无法return一个路径,但是: @Controller可以返回一个路径
  */
 @RestController
 @RequestMapping("test1")
