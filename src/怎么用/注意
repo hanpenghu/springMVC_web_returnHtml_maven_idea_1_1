@@ -1,3 +1,8 @@
 maven项目必须把配置文件,包括所有的xmlMapper都放在resources文件夹下面
 
 SQLServer生成的xmlMapper中的NVARCHAR必须全部改为varchar
+
+WEB-INF文件夹下面是不能被直接访问的,只有通过controller层转发才能被访问的
+
+
+web.xml中的/会只拦截静态资源而不拦截动态资源,放行的话再mvc001中我有放行的方法
