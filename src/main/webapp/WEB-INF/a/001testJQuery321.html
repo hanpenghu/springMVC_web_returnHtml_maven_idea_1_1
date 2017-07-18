@@ -12,11 +12,14 @@
 <div>DIV1</div>
 <div>DIV2</div>
 <span>SPAN</span>
+<div class="myClass">div class="myClass"</div>
+<span class="myClass">span class="myClass"</span>
 <hr/>
     <script>
         document.write($("#myDiv").text()+"<hr/>")
         document.write($("div").text()+"<hr/>")
         $("span").text("你好！！！")//给span添加一个内容
+        $(".myClass").text("大家好")
     </script>
 </body>
 </html>
