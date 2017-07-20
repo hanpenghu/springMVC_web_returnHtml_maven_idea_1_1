@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="springMVC_web_returnHtml_maven_idea_1_1" target="1.5" />
+      <module name="springMVC_web_returnHtml_maven_idea_1_1" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
