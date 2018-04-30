@@ -25,7 +25,7 @@
 	 http://www.springframework.org/schema/util/spring-util.xsd
 	http://www.springframework.org/schema/task 
 	 http://www.springframework.org/schema/task/spring-task-3.0.xsd"
-	default-lazy-init="false"><!-- 不适用懒加载 -->
+	default-lazy-init="false"><!-- 不使用懒加载 -->
 
 
 <context:annotation-config/> 
@@ -95,6 +95,7 @@
         <property name="dataSource" ref="dataSource1"></property>
     </bean>
 	<!-- use annotation way to start a transaction ,we must choose the way between the xml config  and the annotation config -->  
+    <!-- 开启注解方式的事务管理-->
     <tx:annotation-driven transaction-manager="transactionManager1"/>
 <!--================================================================================================================-->
     <!-- 以下是第二个数据源的配置情况 -->
