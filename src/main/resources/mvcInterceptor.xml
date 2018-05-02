@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--本 xml在web.xml中通过SpringMVC.xml已经被加载进来-->
-    <!--<mvc:interceptors>
+   <!-- <mvc:interceptors>
         &lt;!&ndash;拦截器一&ndash;&gt;
         <mvc:interceptor>
         &lt;!&ndash;<mvc:mapping path="/**"/>&ndash;&gt;&lt;!&ndash;用这个的话就是匹配所有&ndash;&gt;
