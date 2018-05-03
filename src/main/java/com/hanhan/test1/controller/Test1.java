@@ -1,7 +1,10 @@
 package com.hanhan.test1.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.hanhan.test1.hanhan.p;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +25,22 @@ public class Test1 {
         return mv;
     }
 
+
+    /**
+     *可以返回结果,证明没有get方法和set方法的时候实体也能够被jackson序列化
+     * */
+    @RequestMapping(value="f1",method = RequestMethod.GET)
+    public @ResponseBody Object  test(){
+
+        TestEntity testEntity=new TestEntity();
+        testEntity.k="我曹";
+
+        String s = JSON.toJSONString(testEntity);
+        p.p("-------------------------------------------------------");
+        p.p(s);
+        p.p("-------------------------------------------------------");
+        return testEntity;
+    }
 
 
 }
