@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Created by hanhan on 2017-07-17.
  * @RestController无法return一个路径,但是: @Controller可以返回一个路径
+ * 可以返回结果,证明没有get方法和set方法的时候实体也能够被jackson序列化
+ * fastJson在field是public的时候同样也不需要实体的get和set方法
  */
 @RestController
 @RequestMapping("test1")
@@ -27,7 +29,7 @@ public class Test1 {
 
 
     /**
-     *可以返回结果,证明没有get方法和set方法的时候实体也能够被jackson序列化
+     *
      * */
     @RequestMapping(value="f1",method = RequestMethod.GET)
     public @ResponseBody Object  test(){
