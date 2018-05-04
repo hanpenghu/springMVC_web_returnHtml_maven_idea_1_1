@@ -1,7 +1,4 @@
 package com.hanhan.test1.hanhan;
-//import com.alibaba.fastjson.JSONArray;
-//import com.alibaba.fastjson.JSONObject;
-//import org.junit.jupiter.api.Test;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -1813,7 +1810,109 @@ public static boolean isFirstDateBig(String firstStr,String  secondStr){
 //        p.p(p.gp().sad(p.dexhx).sad(p.strValeOf(sjc2StrDate(121344L,d16))).sad(p.dexhx).gad());
 //    }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
+     * 该方法解决了返回给前端是 "null"的情况,直接全部字段String化后把类变为Map再在controller return
+     *
+     * 字段转换为字符串
+     * 字段转换为String
+     * 全部字段转换为字符串
+     * 全部字段转换为String
+     *
+     *
+     * 注意这里用Map接收是因为map和类都有同样的性质,都是key和value的组合的集合
+     *@ 设计该类的初衷是 为了输出接口到外部的时候,输出的都是String,
+     * 对于字段无值的进行  ""  输出
+     *
+     *
+     * 亲自试验返回结果,证明没有get方法和set方法的时候实体也能够被jackson序列化
+     * fastJson在field是public的时候同样也不需要实体的get和set方法
+     *
+     * 返回类型中value是Object,是为了将来有符合类型的时候不会出错
+     * */
+
+    /**
+     *
+     * 现在已经支持以下复合类型的直接所有字段变String,
+     * 复杂的要依次取出之后String化再放入
+     * 这样得到的Map最终在Controller  return的时候就可以直接json化,而且不会出现"null"  "nulL"都会变为""
+     *public class Test2StringEntity {
+             private String str;
+             private BigDecimal b;
+             private Double d;
+             private Test t;
+             private List<Test> list;
+
+
+
+     public class Test {
+             String kk="121323";
+             BigDecimal bb;
+     * */
+
+ /* 该方法判断类内部的基本类型用的是下面所有这些
+ List<String> canBeJsonTypes
+            = Arrays.asList(new String[]{"int","java.lang.Integer",
+            "double","java.lang.Double",
+            "float","java.lang.Float","java.lang.Long"
+            ,"long","java.lang.Short","short","java.lang.String","String"
+            ,"java.math.BigDecimal","BigDecimal","byte","java.lang.Byte","char"
+            ,"boolean","java.lang.Boolean"});*/
+    public static Map<String,Object> getAllFields2String(Object o) throws IllegalAccessException {
+        Class clazz=o.getClass();
+        List<Field>allFieldsOrignal=new LinkedList<>();
+        while (clazz != null) {//用while得到所有超类的字段属性
+            allFieldsOrignal.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            clazz = clazz.getSuperclass(); //得到父类,然后赋给自己
+        }
+        Map<String,Object> allFiledKeyValueAllReadyString=new LinkedHashMap<String,Object>();
+        for(Field f:allFieldsOrignal){
+            //强奸 private 字段
+            f.setAccessible(true);
+            //得到字段名字
+            String key = f.getName();
+            String typeName = f.getType().getName();
+            //预设字段值
+            Object value;
+            //得到字段真实值
+            Object valueObj=f.get(o);
+            if(p.canBeJsonTypes.contains(typeName)){
+                if(null==valueObj){
+                    value="";
+                }else{
+                    //只要不是空就转化为String
+                    value=String.valueOf(valueObj);
+                }
+            }else if("java.util.Date".equals(typeName)){
+                try {
+                    value=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(valueObj);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    value="";
+                }
+            }else if("java.util.List".equals(typeName)){
+                //此时是list复合类型
+                List<Map<String,Object>>list=new ArrayList<Map<String,Object>>();
+                for(Object o1:(List)valueObj){
+                    //使用递归
+                    list.add(getAllFields2String(o1)) ;
+                }
+                value=list;
+            }else{
+                //此时是自己造的对象那种符合类型
+                //此时该字段可能是复合类型, 调用自己//使用递归
+               value= getAllFields2String(valueObj);
+            }
+
+            allFiledKeyValueAllReadyString.put(key,value);
+        }
+        return allFiledKeyValueAllReadyString;
+    }
+
+
+
+
+        /**
      *把所有是类中所有是null的字段,如果是String类型,变成""
      * */
     public static Object StringTypeNull2Space(Object o) throws IllegalAccessException {
