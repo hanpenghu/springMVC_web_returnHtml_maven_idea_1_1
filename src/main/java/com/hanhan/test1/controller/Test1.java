@@ -1,6 +1,8 @@
 package com.hanhan.test1.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhan.test1.hanhan.p;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,6 +44,24 @@ public class Test1 {
         p.p(s);
         p.p("-------------------------------------------------------");
         return testEntity;
+    }
+
+
+    //注意没有charset=utf-8会产生乱码
+    @RequestMapping(value="f2",method = RequestMethod.POST,produces ={"text/plain;charset=utf-8"} )
+    public @ResponseBody String  test2() throws JsonProcessingException {
+
+        TestEntity testEntity=new TestEntity();
+//        testEntity.k="我曹";
+
+        //使用jackSon的包将null替换成""//因为 fastJson会将类里面是null的直接不显示
+        String s1 = new ObjectMapper().writeValueAsString(testEntity);
+
+
+        p.p("-------------------------------------------------------");
+        p.p(s1);
+        p.p("-------------------------------------------------------");
+        return s1.replace("null","\"\"");
     }
 
 
