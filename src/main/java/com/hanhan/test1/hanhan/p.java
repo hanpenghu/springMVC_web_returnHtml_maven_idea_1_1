@@ -336,7 +336,7 @@ public strictfp class p implements pI{
         try {
             List<String> strings = p.splitStrSeparator1Left(str2Split, splitor);
 
-            List<Integer>numberStrs=new LinkedList<>();
+            List<Integer>numberStrs=new LinkedList<Integer>();
             for(String s:strings) {
                 String s101 = s.substring(s.lastIndexOf("_")+1);
                 numberStrs.add(Integer.valueOf(s101));

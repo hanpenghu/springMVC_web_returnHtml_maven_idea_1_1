@@ -52,7 +52,7 @@ public class treeset {
     private Set<Object> s=null;
 
     public treeset(){
-        s=new TreeSet<>();
+        s=new TreeSet<Object>();
     }
 
     public static treeset b(){
